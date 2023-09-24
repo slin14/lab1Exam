@@ -56,6 +56,18 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.textBoxQueueContents = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textBoxN = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.buttonDQAvg = new System.Windows.Forms.Button();
+            this.textBoxAvgZ = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBoxAvgY = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.textBoxAvgX = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBoxState
@@ -322,11 +334,141 @@
             // 
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
+            // textBoxQueueContents
+            // 
+            this.textBoxQueueContents.Location = new System.Drawing.Point(448, 113);
+            this.textBoxQueueContents.Multiline = true;
+            this.textBoxQueueContents.Name = "textBoxQueueContents";
+            this.textBoxQueueContents.Size = new System.Drawing.Size(472, 186);
+            this.textBoxQueueContents.TabIndex = 50;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(444, 85);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(156, 25);
+            this.label11.TabIndex = 49;
+            this.label11.Text = "Queue Contents";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(556, 47);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(53, 25);
+            this.label12.TabIndex = 47;
+            this.label12.Text = "Avg:";
+            // 
+            // textBoxN
+            // 
+            this.textBoxN.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxN.Location = new System.Drawing.Point(473, 44);
+            this.textBoxN.Name = "textBoxN";
+            this.textBoxN.Size = new System.Drawing.Size(67, 30);
+            this.textBoxN.TabIndex = 46;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(445, 49);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(32, 25);
+            this.label13.TabIndex = 45;
+            this.label13.Text = "N:";
+            // 
+            // buttonDQAvg
+            // 
+            this.buttonDQAvg.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.buttonDQAvg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDQAvg.Location = new System.Drawing.Point(448, 4);
+            this.buttonDQAvg.Name = "buttonDQAvg";
+            this.buttonDQAvg.Size = new System.Drawing.Size(472, 35);
+            this.buttonDQAvg.TabIndex = 44;
+            this.buttonDQAvg.Text = "Dequeue and Average First N Data Points";
+            this.buttonDQAvg.UseVisualStyleBackColor = false;
+            this.buttonDQAvg.Click += new System.EventHandler(this.buttonDQAvg_Click);
+            // 
+            // textBoxAvgZ
+            // 
+            this.textBoxAvgZ.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxAvgZ.Location = new System.Drawing.Point(838, 42);
+            this.textBoxAvgZ.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBoxAvgZ.Name = "textBoxAvgZ";
+            this.textBoxAvgZ.Size = new System.Drawing.Size(82, 30);
+            this.textBoxAvgZ.TabIndex = 56;
+            this.textBoxAvgZ.TabStop = false;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(817, 47);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(22, 25);
+            this.label14.TabIndex = 55;
+            this.label14.Text = "z";
+            // 
+            // textBoxAvgY
+            // 
+            this.textBoxAvgY.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxAvgY.Location = new System.Drawing.Point(733, 42);
+            this.textBoxAvgY.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBoxAvgY.Name = "textBoxAvgY";
+            this.textBoxAvgY.Size = new System.Drawing.Size(78, 30);
+            this.textBoxAvgY.TabIndex = 54;
+            this.textBoxAvgY.TabStop = false;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(713, 47);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(22, 25);
+            this.label15.TabIndex = 53;
+            this.label15.Text = "y";
+            // 
+            // textBoxAvgX
+            // 
+            this.textBoxAvgX.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxAvgX.Location = new System.Drawing.Point(626, 42);
+            this.textBoxAvgX.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBoxAvgX.Name = "textBoxAvgX";
+            this.textBoxAvgX.Size = new System.Drawing.Size(81, 30);
+            this.textBoxAvgX.TabIndex = 52;
+            this.textBoxAvgX.TabStop = false;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(606, 47);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(22, 25);
+            this.label16.TabIndex = 51;
+            this.label16.Text = "x";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(861, 564);
+            this.ClientSize = new System.Drawing.Size(1063, 564);
+            this.Controls.Add(this.textBoxAvgZ);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.textBoxAvgY);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.textBoxAvgX);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.textBoxQueueContents);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.textBoxN);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.buttonDQAvg);
             this.Controls.Add(this.textBoxState);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.textBoxGesture);
@@ -390,6 +532,18 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Timer timer1;
         private System.IO.Ports.SerialPort serialPort1;
+        private System.Windows.Forms.TextBox textBoxQueueContents;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox textBoxN;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button buttonDQAvg;
+        private System.Windows.Forms.TextBox textBoxAvgZ;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textBoxAvgY;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox textBoxAvgX;
+        private System.Windows.Forms.Label label16;
     }
 }
 

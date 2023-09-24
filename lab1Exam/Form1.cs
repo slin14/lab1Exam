@@ -33,6 +33,18 @@ namespace lab1Exam
         // StreamWriter object for output file
         StreamWriter outputFile;
 
+        // Num data points N
+        int N = 100;
+        double axAvgd = 0.0;
+        double ayAvgd = 0.0;
+        double azAvgd = 0.0;
+        string dataPointsAveraged = "";
+
+        // store the last N Ax, Ay, Az values
+        ConcurrentQueue<Int32> ax = new ConcurrentQueue<Int32>();
+        ConcurrentQueue<Int32> ay = new ConcurrentQueue<Int32>();
+        ConcurrentQueue<Int32> az = new ConcurrentQueue<Int32>();
+
         // current and previous Ax, Ay, Az values
         int axVal = 127;
         int ayVal = 127;
@@ -41,6 +53,10 @@ namespace lab1Exam
         int axOld = 127;
         int ayOld = 127;
         int azOld = 127;
+
+        int axDQ = 127;
+        int ayDQ = 127;
+        int azDQ = 127;
 
         // STATES: 0 = READY
         //         1 = +X
@@ -190,6 +206,13 @@ namespace lab1Exam
                         textBoxAx.Text = dequeuedItem.ToString();
                         nextIsAy = true;
                         nextIsAx = false;
+
+                        // store the last N data points in queue
+                        ax.Enqueue(axVal);
+                        if (ax.Count > N)
+                        {
+                            ax.TryDequeue(out axDQ);
+                        }
                     }
                     else if (nextIsAy)
                     {
@@ -197,12 +220,28 @@ namespace lab1Exam
                         textBoxAy.Text = dequeuedItem.ToString();
                         nextIsAz = true;
                         nextIsAy = false;
+
+                        // store the last N data points in queue
+                        ay.Enqueue(ayVal);
+                        if (ay.Count > N)
+                        {
+                            ay.TryDequeue(out ayDQ);
+                        }
                     }
                     else if (nextIsAz)
                     {
                         azVal = dequeuedItem;
                         textBoxAz.Text = dequeuedItem.ToString();
                         nextIsAz = false;
+
+                        // store the last N data points in queue
+                        az.Enqueue(azVal);
+                        if (az.Count > N)
+                        {
+                            az.TryDequeue(out azDQ);
+                        }
+
+                        // write to output file when asked
                         if (checkBoxSavetofile.Checked)
                         {
                             outputFile.Write($"{axVal.ToString()}, {ayVal.ToString()}, {azVal.ToString()}, {DateTime.Now.ToLongTimeString()}\n");
@@ -255,6 +294,10 @@ namespace lab1Exam
 
             // display orientation in textbox
             textBoxOrientation.Text = orientation;
+
+            // display N in textbox (number data points in ax, ay, az queue)
+            textBoxN.Text = N.ToString();
+            
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -429,7 +472,39 @@ namespace lab1Exam
             }
         }
 
+        private void buttonDQAvg_Click(object sender, EventArgs e)
+        {
+            axAvgd = 0.0;
+            ayAvgd = 0.0;
+            azAvgd = 0.0;
 
+            int axSum = 0;
+            int aySum = 0;
+            int azSum = 0;
 
+            dataPointsAveraged = "";
+
+            foreach (Int32 item in ax)
+            {
+                ax.TryDequeue(out axDQ);
+                ay.TryDequeue(out ayDQ);
+                az.TryDequeue(out azDQ);
+
+                axSum += axDQ;
+                aySum += ayDQ;
+                azSum += azDQ;
+
+                dataPointsAveraged += $"({axDQ}, {ayDQ}, {azDQ}), ";
+            }
+
+            axAvgd = (double)axSum / N;
+            ayAvgd = (double)aySum / N;
+            azAvgd = (double)azSum / N;
+            
+            textBoxAvgX.Text = axAvgd.ToString();
+            textBoxAvgY.Text = ayAvgd.ToString();
+            textBoxAvgZ.Text = azAvgd.ToString();
+            textBoxQueueContents.Text = dataPointsAveraged;
+        }
     }
 }
