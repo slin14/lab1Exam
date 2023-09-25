@@ -262,34 +262,45 @@ namespace lab1Exam
 
 
             // determine orientation of the MSP430EXP PCB and display orientation in textbox
-            // x orientation
-            if (axVal >= 127)
-            {
-                orientation = orientation + "+x, ";
-            }
-            else
-            {
-                orientation = orientation + "-x, ";
-            }
+            int deltaAxAbs = Math.Abs(axVal - 127);
+            int deltaAyAbs = Math.Abs(ayVal - 127);
+            int deltaAzAbs = Math.Abs(azVal - 127);
 
-            // y orientation
-            if (ayVal >= 127)
+            if ((deltaAxAbs > deltaAyAbs) && (deltaAxAbs > deltaAzAbs))
             {
-                orientation = orientation + "+y, ";
+                orientation += "X";
+                if (axVal > 127)
+                {
+                    orientation += "+";
+                }
+                else
+                {
+                    orientation += "-";
+                }
+            }
+            else if ((deltaAyAbs > deltaAxAbs) && (deltaAyAbs > deltaAzAbs))
+            {
+                orientation += "Y";
+                if (ayVal > 127)
+                {
+                    orientation += "+";
+                }
+                else
+                {
+                    orientation += "-";
+                }
             }
             else
             {
-                orientation = orientation + "-y, ";
-            }
-
-            // z orientation
-            if (azVal >= 127)
-            {
-                orientation = orientation + "+z";
-            }
-            else
-            {
-                orientation = orientation + "-z";
+                orientation = "Z";
+                if (azVal > 127)
+                {
+                    orientation += "+";
+                }
+                else
+                {
+                    orientation += "-";
+                }
             }
 
             // display orientation in textbox
