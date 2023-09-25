@@ -41,6 +41,9 @@ namespace lab1Exam
         string dataPointsAveraged = "";
 
         int g = 27;
+		double maxAXg;
+		double maxAYg;
+		double maxAZg;
 
         // store the last N Ax, Ay, Az values
         ConcurrentQueue<Int32> ax = new ConcurrentQueue<Int32>();
@@ -232,9 +235,9 @@ namespace lab1Exam
                             ax.TryDequeue(out axDQ);
                         }
                         ax2.Enqueue(axVal);
-                        if (ax.Count > N2)
+                        if (ax2.Count > N2)
                         {
-                            ax2.TryDequeue(out axDQ);
+                            ax2.TryDequeue(out axDQ2);
                         }
                     }
                     else if (nextIsAy)
@@ -251,9 +254,9 @@ namespace lab1Exam
                             ay.TryDequeue(out ayDQ);
                         }
                         ay2.Enqueue(ayVal);
-                        if (ay.Count > N2)
+                        if (ay2.Count > N2)
                         {
-                            ay2.TryDequeue(out ayDQ);
+                            ay2.TryDequeue(out ayDQ2);
                         }
                     }
                     else if (nextIsAz)
@@ -269,9 +272,9 @@ namespace lab1Exam
                             az.TryDequeue(out azDQ);
                         }
                         az2.Enqueue(azVal);
-                        if (az.Count > N2)
+                        if (az2.Count > N2)
                         {
-                            az2.TryDequeue(out azDQ);
+                            az2.TryDequeue(out azDQ2);
                         }
 
                         // write to output file when asked
@@ -521,27 +524,34 @@ namespace lab1Exam
         // max accel in g
         private void buttonDQAvg_Click(object sender, EventArgs e)
         {
+            textBoxAvgX.Text = "";
+            textBoxAvgY.Text = "";
+            textBoxAvgZ.Text = "";
+
             int maxAX = 0;
             int maxAY = 0;
             int maxAZ = 0;
 
-            double maxAXg = 0.0;
-            double maxAYg = 0.0;
-            double maxAZg = 0.0;
+            maxAXg = 0.0;
+            maxAYg = 0.0;
+            maxAZg = 0.0;
 
             dataPointsAveraged = "";
 
             foreach (Int32 item in ax)
             {
                 axAbs.Enqueue(Math.Abs(item - 127));
+                //ax.TryDequeue(out axDQ);
             }
             foreach (Int32 item in ay)
             {
                 ayAbs.Enqueue(Math.Abs(item - 127));
+                //ay.TryDequeue(out ayDQ);
             }
             foreach (Int32 item in az)
             {
                 azAbs.Enqueue(Math.Abs(item - 127));
+                //az.TryDequeue(out azDQ);
             }
 
             maxAX = axAbs.Max();
@@ -565,13 +575,13 @@ namespace lab1Exam
 
         private void buttonDQAvg2_Click(object sender, EventArgs e)
         {
+            textBoxAvgX2.Text = "";
+            textBoxAvgY2.Text = "";
+            textBoxAvgZ2.Text = "";
+
             axAvgd = 0.0;
             ayAvgd = 0.0;
             azAvgd = 0.0;
-
-            int axSum = 0;
-            int aySum = 0;
-            int azSum = 0;
 
             dataPointsAveraged = "";
 
@@ -586,16 +596,19 @@ namespace lab1Exam
             foreach (Int32 item in ax2)
             {
                 axSumm += ((double)item - axMean) * ((double)item - axMean);
+                //ax.TryDequeue(out axDQ2);
             }
 
             foreach (Int32 item in ay2)
             {
                 aySumm += ((double)item - ayMean) * ((double)item - ayMean);
+                //ay.TryDequeue(out ayDQ2);
             }
 
             foreach (Int32 item in az2)
             {
                 azSumm += ((double)item - azMean) * ((double)item - azMean);
+                //az.TryDequeue(out azDQ2);
             }
 
             axAvgd = Math.Sqrt(axSumm / N2) / g;
