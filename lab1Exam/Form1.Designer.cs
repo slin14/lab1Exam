@@ -398,7 +398,7 @@
             this.buttonDQAvg.Name = "buttonDQAvg";
             this.buttonDQAvg.Size = new System.Drawing.Size(472, 35);
             this.buttonDQAvg.TabIndex = 44;
-            this.buttonDQAvg.Text = "Dequeue and Average First N Data Points";
+            this.buttonDQAvg.Text = "Max Accel in g over last N data points";
             this.buttonDQAvg.UseVisualStyleBackColor = false;
             this.buttonDQAvg.Click += new System.EventHandler(this.buttonDQAvg_Click);
             // 
@@ -559,7 +559,7 @@
             this.buttonDQAvg2.Name = "buttonDQAvg2";
             this.buttonDQAvg2.Size = new System.Drawing.Size(472, 35);
             this.buttonDQAvg2.TabIndex = 57;
-            this.buttonDQAvg2.Text = "Dequeue and Average First N Data Points";
+            this.buttonDQAvg2.Text = "Std dev of accel in g over last N data points";
             this.buttonDQAvg2.UseVisualStyleBackColor = false;
             this.buttonDQAvg2.Click += new System.EventHandler(this.buttonDQAvg2_Click);
             // 

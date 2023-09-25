@@ -47,6 +47,11 @@ namespace lab1Exam
         ConcurrentQueue<Int32> ay = new ConcurrentQueue<Int32>();
         ConcurrentQueue<Int32> az = new ConcurrentQueue<Int32>();
 
+        // store the abs accel Ax, Ay, Az values
+        ConcurrentQueue<Int32> axAbs = new ConcurrentQueue<Int32>();
+        ConcurrentQueue<Int32> ayAbs = new ConcurrentQueue<Int32>();
+        ConcurrentQueue<Int32> azAbs = new ConcurrentQueue<Int32>();
+
         // std dev
         int N2 = 100;
         ConcurrentQueue<Int32> ax2 = new ConcurrentQueue<Int32>();
@@ -497,17 +502,9 @@ namespace lab1Exam
         // max accel in g
         private void buttonDQAvg_Click(object sender, EventArgs e)
         {
-            axAvgd = 0.0;
-            ayAvgd = 0.0;
-            azAvgd = 0.0;
-
             int maxAX = 0;
             int maxAY = 0;
             int maxAZ = 0;
-
-            int axSum = 0;
-            int aySum = 0;
-            int azSum = 0;
 
             double maxAXg = 0.0;
             double maxAYg = 0.0;
@@ -517,30 +514,24 @@ namespace lab1Exam
 
             foreach (Int32 item in ax)
             {
-                ax.TryDequeue(out axDQ);
-                ay.TryDequeue(out ayDQ);
-                az.TryDequeue(out azDQ);
-
-                if (Math.Abs(axDQ - 127) > maxAX)
-                {
-                    maxAX = Math.Abs(axDQ - 127);
-                }
-                if (Math.Abs(ayDQ - 127) > maxAY)
-                {
-                    maxAY = Math.Abs(ayDQ - 127);
-                }
-                if (Math.Abs(azDQ - 127) > maxAZ)
-                {
-                    maxAZ = Math.Abs(azDQ - 127);
-                }
-
-                dataPointsAveraged += $"({axDQ}, {ayDQ}, {azDQ}), ";
+                axAbs.Enqueue(Math.Abs(item - 127));
+            }
+            foreach (Int32 item in ay)
+            {
+                ayAbs.Enqueue(Math.Abs(item - 127));
+            }
+            foreach (Int32 item in az)
+            {
+                azAbs.Enqueue(Math.Abs(item - 127));
             }
 
-            maxAXg = (double)maxAX / 27;
-            maxAYg = (double)maxAY / 27;
-            maxAZg = (double)maxAZ / 27;
+            maxAX = axAbs.Max();
+            maxAY = ayAbs.Max();
+            maxAZ = azAbs.Max();
 
+            maxAXg = (double)maxAX / g;
+            maxAYg = (double)maxAY / g;
+            maxAZg = (double)maxAZ / g;
 
             textBoxAvgX.Text = maxAXg.ToString();
             textBoxAvgY.Text = maxAYg.ToString();
