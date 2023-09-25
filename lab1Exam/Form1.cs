@@ -72,6 +72,10 @@ namespace lab1Exam
         int ayDQ = 127;
         int azDQ = 127;
 
+        int axDQ2 = 127;
+        int ayDQ2 = 127;
+        int azDQ2 = 127;
+
         // STATES: 0 = READY
         //         1 = +X
         //         2 = GESTURE 1 (+X)
@@ -227,6 +231,11 @@ namespace lab1Exam
                         {
                             ax.TryDequeue(out axDQ);
                         }
+                        ax2.Enqueue(axVal);
+                        if (ax.Count > N2)
+                        {
+                            ax2.TryDequeue(out axDQ);
+                        }
                     }
                     else if (nextIsAy)
                     {
@@ -241,6 +250,11 @@ namespace lab1Exam
                         {
                             ay.TryDequeue(out ayDQ);
                         }
+                        ay2.Enqueue(ayVal);
+                        if (ay.Count > N2)
+                        {
+                            ay2.TryDequeue(out ayDQ);
+                        }
                     }
                     else if (nextIsAz)
                     {
@@ -253,6 +267,11 @@ namespace lab1Exam
                         if (az.Count > N)
                         {
                             az.TryDequeue(out azDQ);
+                        }
+                        az2.Enqueue(azVal);
+                        if (az.Count > N2)
+                        {
+                            az2.TryDequeue(out azDQ);
                         }
 
                         // write to output file when asked
@@ -556,22 +575,32 @@ namespace lab1Exam
 
             dataPointsAveraged = "";
 
-            foreach (Int32 item in ax)
+            double axMean = ax2.Average();
+            double ayMean = ay2.Average();
+            double azMean = az2.Average();
+
+            double axSumm = 0.0;
+            double aySumm = 0.0;
+            double azSumm = 0.0;
+            
+            foreach (Int32 item in ax2)
             {
-                ax.TryDequeue(out axDQ);
-                ay.TryDequeue(out ayDQ);
-                az.TryDequeue(out azDQ);
-
-                axSum += axDQ;
-                aySum += ayDQ;
-                azSum += azDQ;
-
-                dataPointsAveraged += $"({axDQ}, {ayDQ}, {azDQ}), ";
+                axSumm += ((double)item - axMean) * ((double)item - axMean);
             }
 
-            axAvgd = (double)axSum / N;
-            ayAvgd = (double)aySum / N;
-            azAvgd = (double)azSum / N;
+            foreach (Int32 item in ay2)
+            {
+                aySumm += ((double)item - ayMean) * ((double)item - ayMean);
+            }
+
+            foreach (Int32 item in az2)
+            {
+                azSumm += ((double)item - azMean) * ((double)item - azMean);
+            }
+
+            axAvgd = Math.Sqrt(axSumm / N2) / g;
+            ayAvgd = Math.Sqrt(aySumm / N2) / g;
+            azAvgd = Math.Sqrt(azSumm / N2) / g;
 
             textBoxAvgX2.Text = axAvgd.ToString();
             textBoxAvgY2.Text = ayAvgd.ToString();
