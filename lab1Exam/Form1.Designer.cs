@@ -528,9 +528,10 @@
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.Location = new System.Drawing.Point(558, 359);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(137, 25);
+            this.label20.Size = new System.Drawing.Size(111, 25);
             this.label20.TabIndex = 60;
-            this.label20.Text = "Max accel in g";
+            this.label20.Text = "std dev in g";
+            this.label20.Click += new System.EventHandler(this.label20_Click);
             // 
             // textBoxN2
             // 
@@ -560,6 +561,7 @@
             this.buttonDQAvg2.TabIndex = 57;
             this.buttonDQAvg2.Text = "Dequeue and Average First N Data Points";
             this.buttonDQAvg2.UseVisualStyleBackColor = false;
+            this.buttonDQAvg2.Click += new System.EventHandler(this.buttonDQAvg2_Click);
             // 
             // Form1
             // 

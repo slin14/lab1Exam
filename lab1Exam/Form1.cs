@@ -34,16 +34,25 @@ namespace lab1Exam
         StreamWriter outputFile;
 
         // Num data points N
-        int N = 100;
+        int N = 500;
         double axAvgd = 0.0;
         double ayAvgd = 0.0;
         double azAvgd = 0.0;
         string dataPointsAveraged = "";
 
+        int g = 27;
+
         // store the last N Ax, Ay, Az values
         ConcurrentQueue<Int32> ax = new ConcurrentQueue<Int32>();
         ConcurrentQueue<Int32> ay = new ConcurrentQueue<Int32>();
         ConcurrentQueue<Int32> az = new ConcurrentQueue<Int32>();
+
+        // std dev
+        int N2 = 100;
+        ConcurrentQueue<Int32> ax2 = new ConcurrentQueue<Int32>();
+        ConcurrentQueue<Int32> ay2 = new ConcurrentQueue<Int32>();
+        ConcurrentQueue<Int32> az2 = new ConcurrentQueue<Int32>();
+
 
         // current and previous Ax, Ay, Az values
         int axVal = 127;
@@ -308,7 +317,8 @@ namespace lab1Exam
 
             // display N in textbox (number data points in ax, ay, az queue)
             textBoxN.Text = N.ToString();
-            
+            textBoxN2.Text = N2.ToString();
+
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -371,7 +381,7 @@ namespace lab1Exam
 
             if (state == 1)
             {
-                if ((pause >= pauseThresh) && posY)
+                if ((pause >= pauseThresh) && posX)
                 {
                     state = 3;
                     count = 0;
@@ -391,25 +401,25 @@ namespace lab1Exam
             }
             else if (state == 3)
             {
-                if ((pause >= pauseThresh) && posZ)
-                {
-                    state = 4;
-                }
-                else if (count >= countThresh)
+                if (show >= showThresh)
                 {
                     state = 0;
                 }
             }
             else if (state == 4)
             {
-                if (show >= showThresh)
+                if ((pause >= pauseThresh) && posY)
+                {
+                    state = 5;
+                }
+                else if (count >= countThresh)
                 {
                     state = 0;
                 }
             }
             else if (state == 5)
             {
-                if ((pause >= pauseThresh) && posX)
+                if ((pause >= pauseThresh) && negY)
                 {
                     state = 6;
                 }
@@ -427,13 +437,13 @@ namespace lab1Exam
             }
             else // includes (state == 0)
             {
-                if (posX)
+                if (negZ)
                 {
                     state = 1;
                 }
                 else if (posZ)
                 {
-                    state = 5;
+                    state = 4;
                 }
                 else
                 {
@@ -456,13 +466,14 @@ namespace lab1Exam
             }
             else if (state == 3)
             {
-                pause++;
-                count++;
+                show++;
+                gesture = 2;
+                
             }
             else if (state == 4)
             {
-                show++;
-                gesture = 3;
+                pause++;
+                count++;
             }
             else if (state == 5)
             {
@@ -472,7 +483,7 @@ namespace lab1Exam
             else if (state == 6)
             {
                 show++;
-                gesture = 2;
+                gesture = 3;
             }
             else
             { // includes (state == 0)
@@ -483,7 +494,66 @@ namespace lab1Exam
             }
         }
 
+        // max accel in g
         private void buttonDQAvg_Click(object sender, EventArgs e)
+        {
+            axAvgd = 0.0;
+            ayAvgd = 0.0;
+            azAvgd = 0.0;
+
+            int maxAX = 0;
+            int maxAY = 0;
+            int maxAZ = 0;
+
+            int axSum = 0;
+            int aySum = 0;
+            int azSum = 0;
+
+            double maxAXg = 0.0;
+            double maxAYg = 0.0;
+            double maxAZg = 0.0;
+
+            dataPointsAveraged = "";
+
+            foreach (Int32 item in ax)
+            {
+                ax.TryDequeue(out axDQ);
+                ay.TryDequeue(out ayDQ);
+                az.TryDequeue(out azDQ);
+
+                if (Math.Abs(axDQ - 127) > maxAX)
+                {
+                    maxAX = Math.Abs(axDQ - 127);
+                }
+                if (Math.Abs(ayDQ - 127) > maxAY)
+                {
+                    maxAY = Math.Abs(ayDQ - 127);
+                }
+                if (Math.Abs(azDQ - 127) > maxAZ)
+                {
+                    maxAZ = Math.Abs(azDQ - 127);
+                }
+
+                dataPointsAveraged += $"({axDQ}, {ayDQ}, {azDQ}), ";
+            }
+
+            maxAXg = (double)maxAX / 27;
+            maxAYg = (double)maxAY / 27;
+            maxAZg = (double)maxAZ / 27;
+
+
+            textBoxAvgX.Text = maxAXg.ToString();
+            textBoxAvgY.Text = maxAYg.ToString();
+            textBoxAvgZ.Text = maxAZg.ToString();
+            textBoxQueueContents.Text = dataPointsAveraged;
+        }
+
+        private void label20_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonDQAvg2_Click(object sender, EventArgs e)
         {
             axAvgd = 0.0;
             ayAvgd = 0.0;
@@ -511,10 +581,10 @@ namespace lab1Exam
             axAvgd = (double)axSum / N;
             ayAvgd = (double)aySum / N;
             azAvgd = (double)azSum / N;
-            
-            textBoxAvgX.Text = axAvgd.ToString();
-            textBoxAvgY.Text = ayAvgd.ToString();
-            textBoxAvgZ.Text = azAvgd.ToString();
+
+            textBoxAvgX2.Text = axAvgd.ToString();
+            textBoxAvgY2.Text = ayAvgd.ToString();
+            textBoxAvgZ2.Text = azAvgd.ToString();
             textBoxQueueContents.Text = dataPointsAveraged;
         }
     }
